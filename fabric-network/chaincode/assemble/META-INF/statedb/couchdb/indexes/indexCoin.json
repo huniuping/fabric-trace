@@ -1,0 +1,10 @@
+{
+  "index": {
+    "fields": [
+      "work_order_id"
+    ]
+  },
+  "ddoc": "indexCoinDoc",
+  "name": "indexCoin",
+  "type": "json"
+}

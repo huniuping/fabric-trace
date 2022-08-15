@@ -1,0 +1,104 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  orderer.huniuping.com:
+  orderer2.huniuping.com:
+  orderer3.huniuping.com:
+  orderer4.huniuping.com:
+  orderer5.huniuping.com:
+
+
+networks:
+  byfn:
+
+services:
+
+  orderer.huniuping.com:
+    extends:
+      file: base/orderer-base.yaml
+      service: orderer-base
+    environment:
+      - ORDERER_GENERAL_LISTENPORT=7050
+    container_name: orderer.huniuping.com
+    networks:
+      - byfn
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer.huniuping.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer.huniuping.com/tls/:/var/hyperledger/orderer/tls
+      - orderer.huniuping.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+
+  orderer2.huniuping.com:
+    extends:
+      file: base/orderer-base.yaml
+      service: orderer-base
+    environment:
+      - ORDERER_GENERAL_LISTENPORT=8050
+    container_name: orderer2.huniuping.com
+    networks:
+      - byfn
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer2.huniuping.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer2.huniuping.com/tls/:/var/hyperledger/orderer/tls
+      - orderer2.huniuping.com:/var/hyperledger/production/orderer
+    ports:
+      - 8050:8050
+
+  orderer3.huniuping.com:
+    extends:
+      file: base/orderer-base.yaml
+      service: orderer-base
+    environment:
+      - ORDERER_GENERAL_LISTENPORT=9050
+    container_name: orderer3.huniuping.com
+    networks:
+      - byfn
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer3.huniuping.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer3.huniuping.com/tls/:/var/hyperledger/orderer/tls
+      - orderer3.huniuping.com:/var/hyperledger/production/orderer
+    ports:
+      - 9050:9050
+
+  orderer4.huniuping.com:
+    extends:
+      file: base/orderer-base.yaml
+      service: orderer-base
+    environment:
+      - ORDERER_GENERAL_LISTENPORT=10050
+    container_name: orderer4.huniuping.com
+    networks:
+      - byfn
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer4.huniuping.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer4.huniuping.com/tls/:/var/hyperledger/orderer/tls
+      - orderer4.huniuping.com:/var/hyperledger/production/orderer
+    ports:
+      - 10050:10050
+
+  orderer5.huniuping.com:
+    extends:
+      file: base/orderer-base.yaml
+      service: orderer-base
+    environment:
+      - ORDERER_GENERAL_LISTENPORT=11050
+    container_name: orderer5.huniuping.com
+    networks:
+      - byfn
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer5.huniuping.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/huniuping.com/orderers/orderer5.huniuping.com/tls/:/var/hyperledger/orderer/tls
+      - orderer5.huniuping.com:/var/hyperledger/production/orderer
+    ports:
+      - 11050:11050

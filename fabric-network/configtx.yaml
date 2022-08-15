@@ -1,0 +1,500 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+---
+################################################################################
+#
+#   Section: Organizations
+#
+#   - This section defines the different organizational identities which will
+#   be referenced later in the configuration.
+#
+################################################################################
+Organizations:
+
+    # SampleOrg defines an MSP using the sampleconfig.  It should never be used
+    # in production but may be used as a template for other definitions
+  - &OrdererOrg
+    Name: OrdererOrg
+    ID: OrdererMSP
+    MSPDir: crypto-config/ordererOrganizations/huniuping.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.huniuping.com:7050
+  - &DesignOrg
+    Name: DesignMSP
+    ID: DesignMSP
+    MSPDir: crypto-config/peerOrganizations/design.huniuping.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('DesignMSP.admin', 'DesignMSP.peer', 'DesignMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('DesignMSP.admin', 'DesignMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('DesignMSP.admin')"
+      Endorsement: #背书权限
+        Type: Signature
+        Rule: "OR('DesignMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.design.huniuping.com
+        Port: 7051
+
+  - &ProcessOrg
+    Name: ProcessMSP
+    ID: ProcessMSP
+    MSPDir: crypto-config/peerOrganizations/process.huniuping.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('ProcessMSP.admin', 'ProcessMSP.peer', 'ProcessMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('ProcessMSP.admin', 'ProcessMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('ProcessMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('ProcessMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.process.huniuping.com
+        Port: 9051
+
+  - &AssembleOrg
+    Name: AssembleMSP
+    ID: AssembleMSP
+    MSPDir: crypto-config/peerOrganizations/assemble.huniuping.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('AssembleMSP.admin', 'AssembleMSP.peer', 'AssembleMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('AssembleMSP.admin', 'AssembleMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('AssembleMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('AssembleMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.assemble.huniuping.com
+        Port: 11051
+
+  - &QualityOrg
+    Name: QualityMSP
+    ID: QualityMSP
+    MSPDir: crypto-config/peerOrganizations/quality.huniuping.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('QualityMSP.admin', 'QualityMSP.peer', 'QualityMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('QualityMSP.admin', 'QualityMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('QualityMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('QualityMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.quality.huniuping.com
+        Port: 13051
+
+  - &ContractOrg
+    # DefaultOrg defines the organization which is used in the sampleconfig
+    # of the fabric.git development environment
+    Name: ContractMSP
+
+    # ID to load the MSP definition as
+    ID: ContractMSP
+
+    MSPDir: crypto-config/peerOrganizations/contract.huniuping.com/msp
+
+      # Policies defines the set of policies at this level of the config tree
+      # For organization policies, their canonical path is usually
+    #   /Channel/<Application|Orderer>/<OrgName>/<PolicyName>
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('ContractMSP.admin', 'ContractMSP.peer', 'ContractMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('ContractMSP.admin', 'ContractMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('ContractMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('ContractMSP.peer')"
+    AnchorPeers:
+      # AnchorPeers defines the location of peers which can be used
+      # for cross org gossip communication.  Note, this value is only
+      # encoded in the genesis block in the Application section context
+      - Host: peer0.contract.huniuping.com
+        Port: 15051
+
+  - &SuperviseOrg
+    # DefaultOrg defines the organization which is used in the sampleconfig
+    # of the fabric.git development environment
+    Name: SuperviseMSP
+
+    # ID to load the MSP definition as
+    ID: SuperviseMSP
+
+    MSPDir: crypto-config/peerOrganizations/supervise.huniuping.com/msp
+
+      # Policies defines the set of policies at this level of the config tree
+    # For organization policies, their canonical path is usually
+    #   /Channel/<Application|Orderer>/<OrgName>/<PolicyName>
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('SuperviseMSP.admin', 'SuperviseMSP.peer', 'SuperviseMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('SuperviseMSP.admin', 'SuperviseMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('SuperviseMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('SuperviseMSP.peer')"
+    AnchorPeers:
+      # AnchorPeers defines the location of peers which can be used
+      # for cross org gossip communication.  Note, this value is only
+      # encoded in the genesis block in the Application section context
+      - Host: peer0.supervise.huniuping.com
+        Port: 17051
+
+  - &ManufactureOrg
+    # DefaultOrg defines the organization which is used in the sampleconfig
+    # of the fabric.git development environment
+    Name: ManufactureMSP
+
+    # ID to load the MSP definition as
+    ID: ManufactureMSP
+
+    MSPDir: crypto-config/peerOrganizations/manufacture.huniuping.com/msp
+
+    # Policies defines the set of policies at this level of the config tree
+    # For organization policies, their canonical path is usually
+    #   /Channel/<Application|Orderer>/<OrgName>/<PolicyName>
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('ManufactureMSP.admin', 'ManufactureMSP.peer', 'ManufactureMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('ManufactureMSP.admin', 'ManufactureMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('ManufactureMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('ManufactureMSP.peer')"
+    AnchorPeers:
+      # AnchorPeers defines the location of peers which can be used
+      # for cross org gossip communication.  Note, this value is only
+      # encoded in the genesis block in the Application section context
+      - Host: peer0.manufacture.huniuping.com
+        Port: 19051
+################################################################################
+#
+#   SECTION: Capabilities
+#
+#   - This section defines the capabilities of fabric network. This is a new
+#   concept as of v1.1.0 and should not be utilized in mixed networks with
+#   v1.0.x peers and orderers.  Capabilities define features which must be
+#   present in a fabric binary for that binary to safely participate in the
+#   fabric network.  For instance, if a new MSP type is added, newer binaries
+#   might recognize and validate the signatures from this type, while older
+#   binaries without this support would be unable to validate those
+#   transactions.  This could lead to different versions of the fabric binaries
+#   having different world states.  Instead, defining a capability for a channel
+#   informs those binaries without this capability that they must cease
+#   processing transactions until they have been upgraded.  For v1.0.x if any
+#   capabilities are defined (including a map with all capabilities turned off)
+#   then the v1.0.x peer will deliberately crash.
+#
+################################################################################
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_0: true
+
+################################################################################
+#
+#   SECTION: Application
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for application related parameters
+#
+################################################################################
+Application: &ApplicationDefaults
+  ACLs: &ACLsDefault
+    peer/Propose: /Channel/Application/Writers
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+      #定义通道的写入规则
+    SuperviseChannelWrite:
+      Type: Signature
+      Rule: "OR('SuperviseMSP.admin', 'SuperviseMSP.client')"
+    #定义设计图纸通道的写入规则
+    DesignChannelWrite:
+      Type: Signature
+      Rule: "OR('DesignMSP.admin', 'DesignMSP.client')"
+    #定义半成品通道的写入规则
+    ProcessChannelWrite:
+      Type: Signature
+      Rule: "OR('ProcessMSP.admin', 'ProcessMSP.client')"
+    #定义组装通道的写入规则
+    AssembleChannelWrite:
+      Type: Signature
+      Rule: "OR('AssembleMSP.admin', 'AssembleMSP.client')"
+    #定义质检通道的写入规则
+    QualityChannelWrite:
+      Type: Signature
+      Rule: "OR('QualityMSP.admin', 'QualityMSP.client')"
+  Capabilities:
+    <<: *ApplicationCapabilities
+################################################################################
+#
+#   SECTION: Orderer
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for orderer related parameters
+#
+################################################################################
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  ##每2秒出一个块##
+  BatchTimeout: 2s
+  BatchSize:
+    ##每50个交易出一个块##
+    MaxMessageCount: 50
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+################################################################################
+#
+#   CHANNEL
+#
+#   This section defines the values to encode into a config transaction or
+#   genesis block for channel related parameters.
+#
+################################################################################
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+################################################################################
+#
+#   Profile
+#
+#   - Different configuration profiles may be encoded here to be specified
+#   as parameters to the configtxgen tool
+#
+################################################################################
+Profiles:
+  designChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+#      ACLs:
+#        <<: *ACLsDefault
+#        peer/Propose: /Channel/Application/DesignChannelWrite
+      Organizations:
+        - *DesignOrg
+        - *SuperviseOrg
+      Capabilities:
+        <<: *ApplicationCapabilities
+
+  processChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      ACLs:
+#        <<: *ACLsDefault
+#        peer/Propose: /Channel/Application/ProcessChannelWrite
+      Organizations:
+        - *ProcessOrg
+        - *SuperviseOrg
+      Capabilities:
+        <<: *ApplicationCapabilities
+
+  assembleChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+#      ACLs:
+#        <<: *ACLsDefault
+#        peer/Propose: /Channel/Application/AssembleChannelWrite
+      Organizations:
+        - *AssembleOrg
+        - *SuperviseOrg
+      Capabilities:
+        <<: *ApplicationCapabilities
+
+  qualityChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+#      ACLs:
+#        <<: *ACLsDefault
+#        peer/Propose: /Channel/Application/QualityChannelWrite
+      Organizations:
+        - *QualityOrg
+        - *SuperviseOrg
+      Capabilities:
+        <<: *ApplicationCapabilities
+
+  contractChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *ContractOrg
+        - *SuperviseOrg
+      Capabilities:
+        <<: *ApplicationCapabilities
+
+  manufactureChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      #      ACLs:
+      #        <<: *ACLsDefault
+      #        peer/Propose: /Channel/Application/manufactureChannelWrite
+      Organizations:
+        - *ManufactureOrg
+        - *SuperviseOrg
+      Capabilities:
+        <<: *ApplicationCapabilities
+
+  superviseChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *SuperviseOrg
+      Capabilities:
+        <<: *ApplicationCapabilities
+
+  SampleMultiNodeEtcdRaft:
+    <<: *ChannelDefaults
+    Capabilities:
+      <<: *ChannelCapabilities
+    Orderer:
+      <<: *OrdererDefaults
+      OrdererType: etcdraft
+      EtcdRaft:
+        Consenters:
+          - Host: orderer.huniuping.com
+            Port: 7050
+            ClientTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer.huniuping.com/tls/server.crt
+            ServerTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer.huniuping.com/tls/server.crt
+          - Host: orderer2.huniuping.com
+            Port: 8050
+            ClientTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer2.huniuping.com/tls/server.crt
+            ServerTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer2.huniuping.com/tls/server.crt
+          - Host: orderer3.huniuping.com
+            Port: 9050
+            ClientTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer3.huniuping.com/tls/server.crt
+            ServerTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer3.huniuping.com/tls/server.crt
+          - Host: orderer4.huniuping.com
+            Port: 10050
+            ClientTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer4.huniuping.com/tls/server.crt
+            ServerTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer4.huniuping.com/tls/server.crt
+          - Host: orderer5.huniuping.com
+            Port: 11050
+            ClientTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer5.huniuping.com/tls/server.crt
+            ServerTLSCert: crypto-config/ordererOrganizations/huniuping.com/orderers/orderer5.huniuping.com/tls/server.crt
+      Addresses:
+        - orderer.huniuping.com:7050
+        - orderer2.huniuping.com:8050
+        - orderer3.huniuping.com:9050
+        - orderer4.huniuping.com:10050
+        - orderer5.huniuping.com:11050
+      Organizations:
+        - *OrdererOrg
+      Capabilities:
+        <<: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - <<: *OrdererOrg
+    Consortiums:
+      SampleConsortium:
+        Organizations:
+          - *DesignOrg
+          - *ProcessOrg
+          - *AssembleOrg
+          - *QualityOrg
+          - *ContractOrg
+          - *SuperviseOrg
+          - *ManufactureOrg

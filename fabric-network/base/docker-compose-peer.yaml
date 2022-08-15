@@ -1,0 +1,469 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+volumes:
+  peer0.design.huniuping.com:
+  peer1.design.huniuping.com:
+  peer0.process.huniuping.com:
+  peer1.process.huniuping.com:
+  peer0.assemble.huniuping.com:
+  peer1.assemble.huniuping.com:
+  peer0.quality.huniuping.com:
+  peer1.quality.huniuping.com:
+  peer0.contract.huniuping.com:
+  peer1.contract.huniuping.com:
+  peer0.supervise.huniuping.com:
+  peer1.supervise.huniuping.com:
+  peer0.manufacture.huniuping.com:
+  peer1.manufacture.huniuping.com:
+
+networks:
+  byfn:
+
+services:
+
+  peer0.design.huniuping.com:
+    container_name: peer0.design.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.design.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer0.design.huniuping.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.design.huniuping.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.design.huniuping.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.design.huniuping.com:7051
+      - CORE_PEER_LOCALMSPID=DesignMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/design.huniuping.com/peers/peer0.design.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/design.huniuping.com/peers/peer0.design.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.design.huniuping.com:/var/hyperledger/production
+
+    ports:
+      - 7051:7051
+      - 7052:7052
+      - 7053:7053
+    networks:
+      - byfn
+
+  peer1.design.huniuping.com:
+    container_name: peer1.design.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - GODEBUG=netdns=go
+      - CORE_PEER_ID=peer1.design.huniuping.com
+      - CORE_PEER_ADDRESS=peer1.design.huniuping.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.design.huniuping.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.design.huniuping.com:8051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.design.huniuping.com:7051
+      - CORE_PEER_LOCALMSPID=DesignMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/design.huniuping.com/peers/peer1.design.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/design.huniuping.com/peers/peer1.design.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.design.huniuping.com:/var/hyperledger/production
+
+    ports:
+      - 8051:8051
+      - 8052:8052
+      - 8053:8053
+    networks:
+      - byfn
+
+  peer0.process.huniuping.com:
+    container_name: peer0.process.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.process.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer0.process.huniuping.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.process.huniuping.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.process.huniuping.com:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.process.huniuping.com:9051
+      - CORE_PEER_LOCALMSPID=ProcessMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/process.huniuping.com/peers/peer0.process.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/process.huniuping.com/peers/peer0.process.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.process.huniuping.com:/var/hyperledger/production
+    ports:
+      - 9051:9051
+      - 9052:9052
+      - 9053:9053
+    networks:
+      - byfn
+
+  peer1.process.huniuping.com:
+    container_name: peer1.process.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.process.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer1.process.huniuping.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.process.huniuping.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.process.huniuping.com:10051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.process.huniuping.com:9051
+      - CORE_PEER_LOCALMSPID=ProcessMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/process.huniuping.com/peers/peer1.process.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/process.huniuping.com/peers/peer1.process.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.process.huniuping.com:/var/hyperledger/production
+    ports:
+      - 10051:10051
+      - 10052:10052
+      - 10053:10053
+    networks:
+      - byfn
+
+  peer0.assemble.huniuping.com:
+    container_name: peer0.assemble.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.assemble.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer0.assemble.huniuping.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.assemble.huniuping.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.assemble.huniuping.com:12051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.assemble.huniuping.com:11051
+      - CORE_PEER_LOCALMSPID=AssembleMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/assemble.huniuping.com/peers/peer0.assemble.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/assemble.huniuping.com/peers/peer0.assemble.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.assemble.huniuping.com:/var/hyperledger/production
+    ports:
+      - 11051:11051
+      - 11052:11052
+      - 11053:11053
+    networks:
+      - byfn
+
+  peer1.assemble.huniuping.com:
+    container_name: peer1.assemble.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.assemble.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer1.assemble.huniuping.com:12051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.assemble.huniuping.com:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.assemble.huniuping.com:12051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.assemble.huniuping.com:11051
+      - CORE_PEER_LOCALMSPID=AssembleMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/assemble.huniuping.com/peers/peer1.assemble.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/assemble.huniuping.com/peers/peer1.assemble.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.assemble.huniuping.com:/var/hyperledger/production
+    ports:
+      - 12051:12051
+      - 12052:12052
+      - 12053:12053
+    networks:
+      - byfn
+
+  peer0.quality.huniuping.com:
+    container_name: peer0.quality.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.quality.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer0.quality.huniuping.com:13051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:13051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.quality.huniuping.com:13052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.quality.huniuping.com:14051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.quality.huniuping.com:13051
+      - CORE_PEER_LOCALMSPID=QualityMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/quality.huniuping.com/peers/peer0.quality.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/quality.huniuping.com/peers/peer0.quality.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.quality.huniuping.com:/var/hyperledger/production
+    ports:
+      - 13051:13051
+      - 13052:13052
+      - 13053:13053
+    networks:
+      - byfn
+
+  peer1.quality.huniuping.com:
+    container_name: peer1.quality.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.quality.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer1.quality.huniuping.com:14051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:14051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.quality.huniuping.com:14052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:14052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.quality.huniuping.com:14051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.quality.huniuping.com:13051
+      - CORE_PEER_LOCALMSPID=QualityMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/quality.huniuping.com/peers/peer1.quality.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/quality.huniuping.com/peers/peer1.quality.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.quality.huniuping.com:/var/hyperledger/production
+    ports:
+      - 14051:14051
+      - 14052:14052
+      - 14053:14053
+    networks:
+      - byfn
+
+  peer0.contract.huniuping.com:
+    container_name: peer0.contract.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.contract.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer0.contract.huniuping.com:15051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:15051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.contract.huniuping.com:15052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:15052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.contract.huniuping.com:16051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.contract.huniuping.com:15051
+      - CORE_PEER_LOCALMSPID=ContractMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/contract.huniuping.com/peers/peer0.contract.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/contract.huniuping.com/peers/peer0.contract.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.contract.huniuping.com:/var/hyperledger/production
+    ports:
+      - 15051:15051
+      - 15052:15052
+      - 15053:15053
+    networks:
+      - byfn
+
+  peer1.contract.huniuping.com:
+    container_name: peer1.contract.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.contract.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer1.contract.huniuping.com:16051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:16051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.contract.huniuping.com:16052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:16052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.contract.huniuping.com:16051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.contract.huniuping.com:15051
+      - CORE_PEER_LOCALMSPID=ContractMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/contract.huniuping.com/peers/peer1.contract.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/contract.huniuping.com/peers/peer1.contract.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.contract.huniuping.com:/var/hyperledger/production
+    ports:
+      - 16051:16051
+      - 16052:16052
+      - 16053:16053
+    networks:
+      - byfn
+
+  peer0.supervise.huniuping.com:
+    container_name: peer0.supervise.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.supervise.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer0.supervise.huniuping.com:17051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:17051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.supervise.huniuping.com:17052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:17052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.supervise.huniuping.com:18051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.supervise.huniuping.com:17051
+      - CORE_PEER_LOCALMSPID=SuperviseMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb5:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/supervise.huniuping.com/peers/peer0.supervise.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/supervise.huniuping.com/peers/peer0.supervise.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.supervise.huniuping.com:/var/hyperledger/production
+    ports:
+      - 17051:17051
+      - 17052:17052
+      - 17053:17053
+    networks:
+      - byfn
+
+  peer1.supervise.huniuping.com:
+    container_name: peer1.supervise.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.supervise.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer1.supervise.huniuping.com:18051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:18051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.supervise.huniuping.com:18052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:18052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.supervise.huniuping.com:18051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.supervise.huniuping.com:17051
+      - CORE_PEER_LOCALMSPID=SuperviseMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb5:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/supervise.huniuping.com/peers/peer1.supervise.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/supervise.huniuping.com/peers/peer1.supervise.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.supervise.huniuping.com:/var/hyperledger/production
+    ports:
+      - 18051:18051
+      - 18052:18052
+      - 18053:18053
+    networks:
+      - byfn
+
+  peer0.manufacture.huniuping.com:
+    container_name: peer0.manufacture.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.manufacture.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer0.manufacture.huniuping.com:19051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:19051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.manufacture.huniuping.com:19052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:19052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.manufacture.huniuping.com:20051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.manufacture.huniuping.com:19051
+      - CORE_PEER_LOCALMSPID=ManufactureMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb6:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/manufacture.huniuping.com/peers/peer0.manufacture.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/manufacture.huniuping.com/peers/peer0.manufacture.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.manufacture.huniuping.com:/var/hyperledger/production
+    ports:
+      - 19051:19051
+      - 19052:19052
+      - 19053:19053
+    networks:
+      - byfn
+
+  peer1.manufacture.huniuping.com:
+    container_name: peer1.manufacture.huniuping.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.manufacture.huniuping.com
+      - GODEBUG=netdns=go
+      - CORE_PEER_ADDRESS=peer1.manufacture.huniuping.com:20051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:20051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.manufacture.huniuping.com:20052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.manufacture.huniuping.com:20051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.manufacture.huniuping.com:19051
+      - CORE_PEER_LOCALMSPID=ManufactureMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb6:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=password
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/manufacture.huniuping.com/peers/peer1.manufacture.huniuping.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/manufacture.huniuping.com/peers/peer1.manufacture.huniuping.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.manufacture.huniuping.com:/var/hyperledger/production
+    ports:
+      - 20051:20051
+      - 20052:20052
+      - 20053:20053
+    networks:
+      - byfn

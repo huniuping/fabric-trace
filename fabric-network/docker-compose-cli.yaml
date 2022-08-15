@@ -1,0 +1,715 @@
+version: '2'
+volumes:
+  peer0.design.huniuping.com:
+  peer1.design.huniuping.com:
+  peer0.process.huniuping.com:
+  peer1.process.huniuping.com:
+  peer0.assemble.huniuping.com:
+  peer1.assemble.huniuping.com:
+  peer0.quality.huniuping.com:
+  peer1.quality.huniuping.com:
+  peer0.contract.huniuping.com:
+  peer1.contract.huniuping.com:
+  peer0.supervise.huniuping.com:
+  peer1.supervise.huniuping.com:
+  peer0.manufacture.huniuping.com:
+  peer1.manufacture.huniuping.com:
+networks:
+  byfn:
+services:
+  peer0.design.huniuping.com:
+    container_name: peer0.design.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer0.design.huniuping.com
+
+  peer1.design.huniuping.com:
+    container_name: peer1.design.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer1.design.huniuping.com
+
+  peer0.process.huniuping.com:
+    container_name: peer0.process.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer0.process.huniuping.com
+  peer1.process.huniuping.com:
+    container_name: peer1.process.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer1.process.huniuping.com
+
+  peer0.assemble.huniuping.com:
+    container_name: peer0.assemble.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer0.assemble.huniuping.com
+  peer1.assemble.huniuping.com:
+    container_name: peer1.assemble.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer1.assemble.huniuping.com
+
+  peer0.quality.huniuping.com:
+    container_name: peer0.quality.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer0.quality.huniuping.com
+  peer1.quality.huniuping.com:
+    container_name: peer1.quality.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer1.quality.huniuping.com
+
+  peer0.contract.huniuping.com:
+    container_name: peer0.contract.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer0.contract.huniuping.com
+  peer1.contract.huniuping.com:
+    container_name: peer1.contract.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer1.contract.huniuping.com
+
+  peer0.supervise.huniuping.com:
+    container_name: peer0.supervise.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer0.supervise.huniuping.com
+  peer1.supervise.huniuping.com:
+    container_name: peer1.supervise.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer1.supervise.huniuping.com
+
+  peer0.manufacture.huniuping.com:
+    container_name: peer0.manufacture.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer0.manufacture.huniuping.com
+  peer1.manufacture.huniuping.com:
+    container_name: peer1.manufacture.huniuping.com
+    extends:
+      file: base/docker-compose-peer.yaml
+      service: peer1.manufacture.huniuping.com
+
+
+
+  design_peer0:
+    container_name: design_peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=peer0Design
+      - CORE_PEER_ADDRESS=peer0.design.huniuping.com:7051
+      - CORE_PEER_LOCALMSPID=DesignMSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/design.huniuping.com/peers/peer0.design.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/design.huniuping.com/peers/peer0.design.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/design.huniuping.com/peers/peer0.design.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/design.huniuping.com/users/Admin@design.huniuping.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  design_peer1:
+    container_name: design_peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_LOCALMSPID=DesignMSP
+      - CORE_PEER_ID=peer1Design
+      - CORE_PEER_ADDRESS=peer1.design.huniuping.com:8051
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/design.huniuping.com/peers/peer1.design.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/design.huniuping.com/peers/peer1.design.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/design.huniuping.com/peers/peer1.design.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/design.huniuping.com/users/Admin@design.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  process_peer0:
+    container_name: process_peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_LOCALMSPID=ProcessMSP
+      - CORE_PEER_ID=peer0Process
+      - CORE_PEER_ADDRESS=peer0.process.huniuping.com:9051
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/process.huniuping.com/peers/peer0.process.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/process.huniuping.com/peers/peer0.process.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/process.huniuping.com/peers/peer0.process.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/process.huniuping.com/users/Admin@process.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  process_peer1:
+    container_name: process_peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_LOCALMSPID=ProcessMSP
+      - CORE_PEER_ID=peer1Process
+      - CORE_PEER_ADDRESS=peer1.process.huniuping.com:10051
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/process.huniuping.com/peers/peer1.process.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/process.huniuping.com/peers/peer1.process.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/process.huniuping.com/peers/peer1.process.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/process.huniuping.com/users/Admin@process.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  assemble_peer0:
+    container_name: assemble_peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_LOCALMSPID=AssembleMSP
+      - CORE_PEER_ID=peer0Assemble
+      - CORE_PEER_ADDRESS=peer0.assemble.huniuping.com:11051
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/assemble.huniuping.com/peers/peer0.assemble.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/assemble.huniuping.com/peers/peer0.assemble.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/assemble.huniuping.com/peers/peer0.assemble.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/assemble.huniuping.com/users/Admin@assemble.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  assemble_peer1:
+    container_name: assemble_peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_LOCALMSPID=AssembleMSP
+      - CORE_PEER_ID=peer1Assemble
+      - CORE_PEER_ADDRESS=peer1.assemble.huniuping.com:12051
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/assemble.huniuping.com/peers/peer1.assemble.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/assemble.huniuping.com/peers/peer1.assemble.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/assemble.huniuping.com/peers/peer1.assemble.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/assemble.huniuping.com/users/Admin@assemble.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  quality_peer0:
+    container_name: quality_peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_LOCALMSPID=QualityMSP
+      - CORE_PEER_ID=peer0Quality
+      - CORE_PEER_ADDRESS=peer0.quality.huniuping.com:13051
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/quality.huniuping.com/peers/peer0.quality.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/quality.huniuping.com/peers/peer0.quality.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/quality.huniuping.com/peers/peer0.quality.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/quality.huniuping.com/users/Admin@quality.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  quality_peer1:
+    container_name: quality_peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_LOCALMSPID=QualityMSP
+      - CORE_PEER_ID=peer1Quality
+      - CORE_PEER_ADDRESS=peer1.quality.huniuping.com:14051
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/quality.huniuping.com/peers/peer1.quality.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/quality.huniuping.com/peers/peer1.quality.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/quality.huniuping.com/peers/peer1.quality.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/quality.huniuping.com/users/Admin@quality.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  contract_peer0:
+    container_name: contract_peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_LOCALMSPID=ContractMSP
+      - CORE_PEER_ID=peer0Contract
+      - CORE_PEER_ADDRESS=peer0.contract.huniuping.com:15051
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/contract.huniuping.com/peers/peer0.contract.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/contract.huniuping.com/peers/peer0.contract.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/contract.huniuping.com/peers/peer0.contract.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/contract.huniuping.com/users/Admin@contract.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  contract_peer1:
+    container_name: contract_peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_LOCALMSPID=ContractMSP
+      - CORE_PEER_ID=peer1Contract
+      - CORE_PEER_ADDRESS=peer1.contract.huniuping.com:16051
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/contract.huniuping.com/peers/peer1.contract.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/contract.huniuping.com/peers/peer1.contract.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/contract.huniuping.com/peers/peer1.contract.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/contract.huniuping.com/users/Admin@contract.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  supervise_peer0:
+    container_name: supervise_peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_LOCALMSPID=SuperviseMSP
+      - CORE_PEER_ID=peer0Supervise
+      - CORE_PEER_ADDRESS=peer0.supervise.huniuping.com:17051
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/supervise.huniuping.com/peers/peer0.supervise.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/supervise.huniuping.com/peers/peer0.supervise.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/supervise.huniuping.com/peers/peer0.supervise.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/supervise.huniuping.com/users/Admin@supervise.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  supervise_peer1:
+    container_name: supervise_peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_LOCALMSPID=SuperviseMSP
+      - CORE_PEER_ID=peer1Supervise
+      - CORE_PEER_ADDRESS=peer1.supervise.huniuping.com:18051
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/supervise.huniuping.com/peers/peer1.supervise.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/supervise.huniuping.com/peers/peer1.supervise.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/supervise.huniuping.com/peers/peer1.supervise.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/supervise.huniuping.com/users/Admin@supervise.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  manufacture_peer0:
+    container_name: manufacture_peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_LOCALMSPID=ManufactureMSP
+      - CORE_PEER_ID=peer0Manufacture
+      - CORE_PEER_ADDRESS=peer0.manufacture.huniuping.com:19051
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacture.huniuping.com/peers/peer0.manufacture.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacture.huniuping.com/peers/peer0.manufacture.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacture.huniuping.com/peers/peer0.manufacture.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacture.huniuping.com/users/Admin@manufacture.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+
+  manufacture_peer1:
+    container_name: manufacture_peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_LOCALMSPID=ManufactureMSP
+      - CORE_PEER_ID=peer1Manufacture
+      - CORE_PEER_ADDRESS=peer1.manufacture.huniuping.com:20051
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacture.huniuping.com/peers/peer1.manufacture.huniuping.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacture.huniuping.com/peers/peer1.manufacture.huniuping.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacture.huniuping.com/peers/peer1.manufacture.huniuping.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacture.huniuping.com/users/Admin@manufacture.huniuping.com/msp
+      - CORE_PEER_TLS_ENABLED=true
+
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.design.huniuping.com
+      - peer1.design.huniuping.com
+      - peer0.process.huniuping.com
+      - peer1.process.huniuping.com
+      - peer0.assemble.huniuping.com
+      - peer1.assemble.huniuping.com
+      - peer0.quality.huniuping.com
+      - peer1.quality.huniuping.com
+      - peer0.contract.huniuping.com
+      - peer1.contract.huniuping.com
+      - peer0.supervise.huniuping.com
+      - peer1.supervise.huniuping.com
+      - peer0.manufacture.huniuping.com
+      - peer1.manufacture.huniuping.com
+    networks:
+      - byfn
+

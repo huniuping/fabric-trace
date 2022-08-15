@@ -1,0 +1,11 @@
+{
+  "index": {
+    "fields": [
+      "contract_id",
+      "drawing_id"
+    ]
+  },
+  "ddoc": "indexCoinDoc",
+  "name": "indexCoin",
+  "type": "json"
+}

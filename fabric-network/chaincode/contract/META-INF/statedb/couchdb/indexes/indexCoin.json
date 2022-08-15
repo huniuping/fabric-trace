@@ -1,0 +1,10 @@
+{
+  "index": {
+    "fields": [
+      "productName"
+    ]
+  },
+  "ddoc": "indexCoinDoc",
+  "name": "indexCoin",
+  "type": "json"
+}
