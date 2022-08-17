@@ -9,6 +9,7 @@ import (
 	"raft-fabric-project/application/controller/supervise"
 	"raft-fabric-project/application/controller/contract"
 	"raft-fabric-project/application1/controller/workOrder"
+	"raft-fabric-project/application1/controller/login"
 )
 
 func InitRouter(router *gin.Engine) {
@@ -20,6 +21,7 @@ func InitRouter(router *gin.Engine) {
 	contract_group := router.Group("/contract")
 	supervise_group := router.Group("/supervise")
 	workOrder_group := router.Group("/workerOrder")
+	login_group := router.Group("/login")
 
 
 
@@ -30,5 +32,6 @@ func InitRouter(router *gin.Engine) {
 	quality.Router(quality_group)
 	contract.Router(contract_group)
 	workOrder.Router(workOrder_group)
+	login.Router(login_group)
 
 }
