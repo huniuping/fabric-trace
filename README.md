@@ -10,3 +10,4 @@ Here are some tips for authors when creating projects：
 2.You need to add DNS mapping for container on host, because this project is built on a single machine
 3.In the chaincode folder of fabric2.3, in addition to the chaincode files, the vendor directory and go.mod, go The author suggests that “go mod” be used to manage the dependency packages of chain code during chaincode development. The vendor can obtain them through the command “go mod vendor”
 
+Specially,the SASproject file is the code that implement ordered aggregate signature ,it's coded by java,and it used jpbc library to support the signature.
